@@ -17,7 +17,7 @@ import { ElInputNumberPoprs } from './input-number-props'
     </span>
     
     <el-input [model]="model" (modelChange)="changeHandle($event)"
-      [value]="model" [disabled]="disabled" [size]="size">
+      [value]="model" [disabled]="disabled" [size]="size" #input>
     </el-input>
     </div>
   `,
@@ -32,13 +32,24 @@ export class ElInputNumber extends ElInputNumberPoprs {
     super()
   }
   
-  changeHandle(value: any): void {
-    this.model = value
+  setCurrentValue(value: any): void {
     this.maxDisabled = value > this.max
     this.minDisabled = value < this.min
     if (this.maxDisabled) return this.dispatchModel(this.max)
     if (this.minDisabled) return this.dispatchModel(this.min)
     this.modelChange.emit(value)
+    this.model = value
+  }
+
+  changeHandle(value: any): void {
+    if (Number.isNaN(Number(value))) {
+      const timer = setTimeout(() => {
+        this.inputRef.setCurrentValue(this.model)
+        clearTimeout(timer)
+      }, this.debounce)
+    } else {
+      this.setCurrentValue(value)
+    }
   }
   
   dispatchModel(limit: number): void {

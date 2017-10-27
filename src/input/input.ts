@@ -79,14 +79,19 @@ export class ElInput extends ElInputPoprs implements OnInit, AfterViewInit {
   }
   
   handleInput(val: string): void {
-    this.model = val
     this.modelChange.emit(val)
+    this.setCurrentValue(val)
+  }
+  
+  setCurrentValue(value: any): void {
+    if (value === this.model) return;
+    this.model = value
     const timer: any = setTimeout(() => {
       this.makeTextareaStyles()
       clearTimeout(timer)
     }, 0)
   }
-  
+
   ngOnInit(): void {
     if (this.value && !this.model) {
       this.model = this.value
