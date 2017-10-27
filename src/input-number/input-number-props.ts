@@ -1,4 +1,4 @@
-import { EventEmitter, Input, ViewChild, ElementRef } from '@angular/core'
+import { EventEmitter, Input, ViewChild } from '@angular/core'
 import { ElInput } from '../input/input'
 
 export class ElInputNumberPoprs {
@@ -11,7 +11,7 @@ export class ElInputNumberPoprs {
   @Input() controls: boolean = true
   @Input() debounce: number = 300
 
-  @ViewChild('input') inputRef: ElInput
+  @ViewChild(ElInput) inputRef: ElInput
   // bind value
   @Input() model: any = ''
   protected modelChange: EventEmitter<any> = new EventEmitter<any> ()

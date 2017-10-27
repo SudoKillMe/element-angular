@@ -42,19 +42,21 @@ export class ElInputNumber extends ElInputNumberPoprs {
   }
 
   changeHandle(value: any): void {
-    if (Number.isNaN(Number(value))) {
+    const val = Number(value)
+    if (Number.isNaN(val)) {
       const timer = setTimeout(() => {
         this.inputRef.setCurrentValue(this.model)
         clearTimeout(timer)
       }, this.debounce)
     } else {
-      this.setCurrentValue(value)
+      this.setCurrentValue(val)
     }
   }
   
   dispatchModel(limit: number): void {
     const timer = setTimeout(() => {
       this.model = limit
+      this.inputRef.setCurrentValue(limit)
       this.modelChange.emit(limit)
       clearTimeout(timer)
     }, this.debounce)
